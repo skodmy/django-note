@@ -7,7 +7,7 @@ class TodoAdmin(admin.ModelAdmin):
     Admin class for abstract Todo model.
     """
     date_hierarchy = 'created_at'
-    ordering = '-last_modified_at'
+    ordering = ('-last_modified_at', )
     search_fields = ('name', )
 
 
@@ -18,4 +18,4 @@ class TodoListAdmin(TodoAdmin):
 
 @admin.register(TodoListItem)
 class TodoListItemAdmin(TodoAdmin):
-    list_filter = ('checked', admin.BooleanFieldListFilter)
+    list_filter = ('checked', )

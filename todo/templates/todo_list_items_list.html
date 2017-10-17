@@ -1,5 +1,6 @@
+<h5>{{ todo_list.name }}</h5>
 <ul>
-{% for todo_list_item in todo_list_items_list %}
-    <li>{{ todo_list_item }}</li>
+{% for todo_list_item in todo_list_items %}
+    <li>{{ todo_list_item.name }}</li>
 {% endfor %}
 </ul>
