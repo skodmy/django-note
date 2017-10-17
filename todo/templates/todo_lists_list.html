@@ -1,5 +1,6 @@
+<h3>{{ request.user.username }}</h3>
 <ul>
 {% for todo_list in todo_lists %}
-    <li>{{ todo_list.name }}</li>
+    <li><a href="/todo/todo_list/{{ todo_list.id }}/items/">{{ todo_list.name }}</a></li>
 {% endfor %}
 </ul>
