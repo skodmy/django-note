@@ -1,10 +1,10 @@
 from django.contrib import admin
-from.models import Todo, TodoList, TodoListItem
+from.models import TodoList, TodoListItem
 
 
 class TodoAdmin(admin.ModelAdmin):
     """
-    Admin class for Todo.
+    Admin class for abstract Todo model.
     """
     date_hierarchy = 'created_at'
     ordering = '-last_modified_at'
@@ -12,10 +12,10 @@ class TodoAdmin(admin.ModelAdmin):
 
 
 @admin.register(TodoList)
-class TodoListAdmin(admin.ModelAdmin):
+class TodoListAdmin(TodoAdmin):
     pass
 
 
 @admin.register(TodoListItem)
-class TodoListItemAdmin(admin.ModelAdmin):
+class TodoListItemAdmin(TodoAdmin):
     list_filter = ('checked', admin.BooleanFieldListFilter)
