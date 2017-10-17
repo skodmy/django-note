@@ -1,3 +1,15 @@
 from django.shortcuts import render
+from django.views.generic import ListView
+from .models import Todo, TodoList, TodoListItem
 
-# Create your views here.
+
+class TodoListView(ListView):
+    model = Todo
+
+
+class TodoListListView(TodoListView):
+    model = TodoList
+
+
+class TodoListItemListView(TodoListView):
+    model = TodoListItem
