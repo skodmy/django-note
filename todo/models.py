@@ -24,7 +24,7 @@ class TodoList(models.Model):
         return all((todo_list_item.checked for todo_list_item in TodoListItem.objects.filter(todo_list=self)))
 
     def __str__(self):
-        return '{}, created at {}, last modified at {}'.format(
+        return '{}, created: {}, modified: {}'.format(
             self.name,
             self.created,
             self.modified
