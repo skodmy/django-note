@@ -37,7 +37,7 @@ class TodoListItem(models.Model):
     """
     todo_list = models.ForeignKey(TodoList)
     title = models.CharField(max_length=150)
-    text = models.TextField()
+    text = models.TextField(blank=True)
     done = models.BooleanField(default=False)
 
     def __str__(self):
