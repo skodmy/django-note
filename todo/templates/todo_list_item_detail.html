@@ -1,0 +1,3 @@
+<h1>{{ todolistitem.title }} of {{ todolistitem.todo_list.name }}</h1>
+<div>Status: {% if todolistitem.done %}done{% else %}undone{% endif %}</div>
+<div>{{ todolistitem.text }}</div>

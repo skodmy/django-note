@@ -1,6 +1,6 @@
 # from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import TodoList, TodoListItem
 
 
@@ -25,3 +25,8 @@ class TodoListItemListView(LoginRequiredMixin, ListView):
         context_data = super().get_context_data(**kwargs)
         context_data['todo_list'] = TodoList.objects.get(id=self.kwargs['todo_list_id'])
         return context_data
+
+
+class TodoListItemDetailView(DetailView):
+    model = TodoListItem
+    template_name = 'todo_list_item_detail.html'
