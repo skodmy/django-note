@@ -6,8 +6,11 @@ class TodoListTestCase(TestCase):
     def setUp(self):
         self.todo_list = TodoList.objects.create(name='Test list', user=User.objects.create())
 
+    def test_datetime_logic(self):
+        self.assertLessEqual(self.todo_list.created, self.todo_list.modified)
+
     def test_completed(self):
-        self.assertTrue(self.todo_list.completed())
+        self.assertTrue(self.todo_list.completed)
 
 
 class TodoListItemTestCase(TestCase):
