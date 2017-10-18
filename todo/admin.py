@@ -2,20 +2,14 @@ from django.contrib import admin
 from.models import TodoList, TodoListItem
 
 
-class TodoAdmin(admin.ModelAdmin):
-    """
-    Admin class for abstract Todo model.
-    """
-    date_hierarchy = 'created_at'
-    ordering = ('-last_modified_at', )
-    search_fields = ('name', )
-
-
 @admin.register(TodoList)
-class TodoListAdmin(TodoAdmin):
-    pass
+class TodoListAdmin(admin.ModelAdmin):
+    search_fields = ('name',)
+    date_hierarchy = 'created'
+    ordering = ('-modified',)
 
 
 @admin.register(TodoListItem)
-class TodoListItemAdmin(TodoAdmin):
-    list_filter = ('checked', )
+class TodoListItemAdmin(admin.ModelAdmin):
+    search_fields = ('title', )
+    list_filter = ('done', )
