@@ -23,3 +23,7 @@ class TodoListItemDetailView(LoginRequiredMixin, DetailView):
     model = TodoListItem
     context_object_name = 'todo_list_item'
     template_name = 'todo/list_item_detail.html'
+
+
+class Index(TodoListListView):
+    template_name = 'todo/index.html'
