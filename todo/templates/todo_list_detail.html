@@ -1,6 +1,6 @@
 <h3>{{ todo_list.name }}</h3>
 <ul>
 {% for todo_list_item in todo_list.items %}
-    <li><a href="/todo/todo_list_item/{{ todo_list_item.id }}/">{{ todo_list_item.title }}</a></li>
+    <li><a href="/todo/list-item/{{ todo_list_item.id }}/">{{ todo_list_item.title }}</a></li>
 {% endfor %}
 </ul>

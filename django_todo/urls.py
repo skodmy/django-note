@@ -20,7 +20,7 @@ from django.shortcuts import redirect
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', lambda request: redirect('/todo/todo_lists/', request=request)),
+    url(r'^$', lambda request: redirect('/todo/', request=request)),
     url(r'^todo/', include(todo.urls, namespace='todo')),
 ]
 
