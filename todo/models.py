@@ -15,13 +15,18 @@ class TodoList(models.Model):
     modified = models.DateTimeField(auto_now=True)
 
     @property
+    def items(self):
+        for todo_list_item_object in TodoListItem.objects.filter(todo_list=self):
+            yield todo_list_item_object
+
+    @property
     def completed(self):
         """
         Checks if all items for self are checked.
 
         :return: True if all are True, False otherwise.
         """
-        return all((todo_list_item.checked for todo_list_item in TodoListItem.objects.filter(todo_list=self)))
+        return all((todo_list_item.checked for todo_list_item in self.items))
 
     def __str__(self):
         return '{}, created: {}, modified: {}'.format(
