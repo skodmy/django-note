@@ -19,6 +19,7 @@ class TodoListDetailView(LoginRequiredMixin, DetailView):
     template_name = 'todo_list_detail.html'
 
 
-class TodoListItemDetailView(DetailView):
+class TodoListItemDetailView(LoginRequiredMixin, DetailView):
     model = TodoListItem
+    context_object_name = 'todo_list_item'
     template_name = 'todo_list_item_detail.html'
