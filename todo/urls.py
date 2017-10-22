@@ -1,15 +1,24 @@
-from django.conf.urls import url
-from .views import TodoListDetailView, TodoListItemDetailView, Index, TodoListCreateView, \
-    TodoListUpdateView, TodoListDeleteView, TodoListItemCreateView, TodoListItemUpdateView, TodoListItemDeleteView
+from django.conf.urls import url, include
+from .views import Index
+from .views import TodoListCreateView, TodoListDetailView, TodoListUpdateView, TodoListDeleteView
+from .views import TodoListItemCreateView, TodoListItemDetailView, TodoListItemUpdateView, TodoListItemDeleteView
 
 urlpatterns = [
     url(r'^$', Index.as_view(), name='index'),
-    url(r'^list/add/$', TodoListCreateView.as_view(), name='list-add'),
-    url(r'^list/(?P<pk>\d+)/update/$', TodoListUpdateView.as_view(), name='list-update'),
-    url(r'^list/(?P<pk>\d+)/delete/$', TodoListDeleteView.as_view(), name='list-delete'),
-    url(r'^list/(?P<pk>\d+)/$', TodoListDetailView.as_view(), name='list-detail'),
-    url(r'^list/(?P<id>\d+)/list-item/(?P<pk>\d+)/$', TodoListItemDetailView.as_view(), name='list-item-detail'),
-    url(r'^list/(?P<pk>\d+)/list-item/add/$', TodoListItemCreateView.as_view(), name='list-item-add'),
-    url(r'^list/(?P<id>\d+)/list-item/(?P<pk>\d+)/update/$', TodoListItemUpdateView.as_view(), name='list-item-update'),
-    url(r'^list/(?P<id>\d+)/list-item/(?P<pk>\d+)/delete/$', TodoListItemDeleteView.as_view(), name='list-item-delete')
+    url(r'^list/', include([
+        url('^add/$', TodoListCreateView.as_view(), name='list-add'),
+        url(r'^(?P<pk>\d+)/', include([
+            url(r'^$', TodoListDetailView.as_view(), name='list-detail'),
+            url(r'^update/$', TodoListUpdateView.as_view(), name='list-update'),
+            url(r'^delete/$', TodoListDeleteView.as_view(), name='list-delete'),
+            url(r'^list-item/', include([
+                url(r'add/$', TodoListItemCreateView.as_view(), name='list-item-add'),
+                url(r'(?P<id>\d+)/', include([
+                    url(r'^$', TodoListItemDetailView.as_view(), name='list-item-detail'),
+                    url(r'^update/$', TodoListItemUpdateView.as_view(), name='list-item-update'),
+                    url(r'^delete/$', TodoListItemDeleteView.as_view(), name='list-item-delete'),
+                ]))
+            ]))
+        ]))
+    ])),
 ]
