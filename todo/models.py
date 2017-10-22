@@ -37,7 +37,7 @@ class TodoList(models.Model):
         return all((todo_list_item.done for todo_list_item in self.items))
 
     def get_absolute_url(self):
-        return reverse('todo:list-detail', kwargs={'pk': self.pk})
+        return reverse('todo:list-detail', kwargs={'todo_list_id': self.id})
 
 
 class TodoListItem(models.Model):
@@ -53,4 +53,7 @@ class TodoListItem(models.Model):
         return '{} from {} is {}'.format(self.title, self.todo_list.name, 'done' if self.done else 'undone')
 
     def get_absolute_url(self):
-        return reverse('todo:list-item-detail', kwargs={'id': self.todo_list.id, 'pk': self.pk})
+        return reverse(
+            'todo:list-item-detail',
+            kwargs={'todo_list_id': self.todo_list.id, 'todo_list_item_id': self.id}
+        )

@@ -6,7 +6,7 @@
         <ul>
             {% for item in todo_list.items %}
                 <li>
-                    <a href="list-item/{{ item.id }}/">
+                    <a href="{% url 'todo:list-item-detail' todo_list.id item.id %}">
                         {% if item.done %}
                             <s>{{ item.title }}</s>
                         {% else %}
