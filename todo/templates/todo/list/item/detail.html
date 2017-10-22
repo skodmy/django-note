@@ -2,5 +2,13 @@
 
 {% block content %}
     <div>{{ todo_list_item.title }}</div>
+    <div>Status:
+        {% if todo_list_item.done %}
+            done
+        {% else %}
+            undone
+        {% endif %}
+        .
+    </div>
     <div>{{ todo_list_item.text }}</div>
 {% endblock %}
