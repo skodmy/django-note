@@ -6,28 +6,6 @@ from django.urls import reverse_lazy, reverse
 from .models import TodoList, TodoListItem
 
 
-class TodoListCreateView(LoginRequiredMixin, CreateView):
-    model = TodoList
-    fields = ['name']
-    template_name = 'todo/list_add.html'
-
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super().form_valid(form)
-
-
-class TodoListUpdateView(LoginRequiredMixin, UpdateView):
-    model = TodoList
-    fields = ['name']
-    template_name = 'todo/list_update.html'
-
-
-class TodoListDeleteView(LoginRequiredMixin, DeleteView):
-    model = TodoList
-    template_name = 'todo/list_delete.html'
-    success_url = reverse_lazy('todo:index')
-
-
 class Index(LoginRequiredMixin, ListView):
     model = TodoList
     context_object_name = 'todo_lists'
@@ -37,45 +15,73 @@ class Index(LoginRequiredMixin, ListView):
         return self.model.objects.filter(user=self.request.user)
 
 
-class TodoListDetailView(LoginRequiredMixin, DetailView):
+class CRUDViewCommonMixin:
+    model = None
+    pk_url_kwarg = ''
+    context_object_name = ''
+
+
+class TodoListCRUDViewCommonMixin(CRUDViewCommonMixin):
     model = TodoList
+    pk_url_kwarg = 'todo_list_id'
     context_object_name = 'todo_list'
-    template_name = 'todo/list_detail.html'
 
 
-class TodoListItemDetailView(LoginRequiredMixin, DetailView):
-    model = TodoListItem
-    context_object_name = 'todo_list_item'
-    template_name = 'todo/list_item_detail.html'
-
-
-class TodoListItemCreateView(LoginRequiredMixin, CreateView):
-    model = TodoListItem
-    fields = ['title', 'text']
-    context_object_name = 'todo_list_item'
-    template_name = 'todo/list_item_add.html'
+class TodoListCreateView(LoginRequiredMixin, TodoListCRUDViewCommonMixin, CreateView):
+    fields = ['name']
+    template_name = 'todo/list/create.html'
 
     def form_valid(self, form):
-        form.instance.todo_list = TodoList.objects.get(id=self.kwargs['pk'])
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class TodoListDetailView(LoginRequiredMixin, TodoListCRUDViewCommonMixin, DetailView):
+    template_name = 'todo/list/detail.html'
+
+
+class TodoListUpdateView(LoginRequiredMixin, TodoListCRUDViewCommonMixin, UpdateView):
+    fields = ['name']
+    template_name = 'todo/list/update.html'
+
+
+class TodoListDeleteView(LoginRequiredMixin, TodoListCRUDViewCommonMixin, DeleteView):
+    template_name = 'todo/list/delete.html'
+    success_url = reverse_lazy('todo:index')
+
+
+class TodoListItemCRUDViewCommonMixin(CRUDViewCommonMixin):
+    model = TodoListItem
+    pk_url_kwarg = 'todo_list_item_id'
+    context_object_name = 'todo_list_item'
+
+
+class TodoListItemCreateView(LoginRequiredMixin, TodoListItemCRUDViewCommonMixin, CreateView):
+    fields = ['title', 'text']
+    template_name = 'todo/list/item/create.html'
+
+    def form_valid(self, form):
+        form.instance.todo_list = TodoList.objects.get(id=self.kwargs['todo_list_id'])
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('todo:list-detail', kwargs={'pk': self.kwargs['pk']})
+        return reverse('todo:list-detail', kwargs=self.kwargs)
 
 
-class TodoListItemUpdateView(LoginRequiredMixin, UpdateView):
-    model = TodoListItem
+class TodoListItemDetailView(LoginRequiredMixin, TodoListItemCRUDViewCommonMixin, DetailView):
+    template_name = 'todo/list/item/detail.html'
+
+
+class TodoListItemUpdateView(LoginRequiredMixin, TodoListItemCRUDViewCommonMixin, UpdateView):
     fields = ['title', 'text', 'done']
-    context_object_name = 'todo_list_item'
-    template_name = 'todo/list_item_update.html'
+    template_name = 'todo/list/update.html'
 
     def get_success_url(self):
-        return reverse('todo:list-detail', kwargs={'pk': self.kwargs['id']})
+        return reverse('todo:list-detail', kwargs={'todo_list_id': self.kwargs['todo_list_id']})
 
 
-class TodoListItemDeleteView(LoginRequiredMixin, DeleteView):
-    model = TodoListItem
-    template_name = 'todo/list_item_delete.html'
+class TodoListItemDeleteView(LoginRequiredMixin, TodoListItemCRUDViewCommonMixin, DeleteView):
+    template_name = 'todo/list/delete.html'
 
     def get_success_url(self):
-        return reverse('todo:list-detail', kwargs={'pk': self.kwargs['id']})
+        return reverse('todo:list-detail', kwargs={'todo_list_id': self.kwargs['todo_list_id']})
