@@ -1,6 +1,0 @@
-<h3>{{ request.user.username }}</h3>
-<ul>
-{% for todo_list in todo_lists %}
-    <li><a href="/todo/list/{{ todo_list.id }}/">{{ todo_list.name }}</a></li>
-{% endfor %}
-</ul>
