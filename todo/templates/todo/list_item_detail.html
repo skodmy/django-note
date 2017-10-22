@@ -1,3 +1,6 @@
-<h1>{{ todo_list_item.title }} of {{ todo_list_item.todo_list.name }}</h1>
-<div>Status: {% if todo_list_item.done %}done{% else %}undone{% endif %}</div>
-<div>{{ todo_list_item.text }}</div>
+{% extends 'todo/base.html' %}
+
+{% block content %}
+    <div>{{ todo_list_item.title }}</div>
+    <div>{{ todo_list_item.text }}</div>
+{% endblock %}

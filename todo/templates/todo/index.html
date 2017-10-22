@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    {% include 'todo/lists_list.html' %}
-</body>
-</html>
+{% extends 'todo/base.html' %}
+
+{% block content %}
+    <div>Welcome, {{ request.user.username }}</div>
+    <div>
+        <ul>
+        {% for todo_list in todo_lists %}
+            <li>
+                <a href="list/{{ todo_list.id }}/">
+                    {% if todo_list.completed %}
+                        <s>{{ todo_list.name }}</s>
+                    {% else %}
+                        {{ todo_list.name }}
+                    {% endif %}
+                </a>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
