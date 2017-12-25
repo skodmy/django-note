@@ -1,5 +1,7 @@
 from django.test import TestCase, RequestFactory
-from django.contrib.auth.models import AnonymousUser, User
+from django.conf import settings
+from django.apps import apps
+from django.contrib.auth.models import AnonymousUser
 
 from .models import TodoList, TodoListItem
 from .views import Index
@@ -7,9 +9,12 @@ from .views import TodoListCreateView
 from .views import TodoListItemCreateView, TodoListItemUpdateView, TodoListItemDeleteView
 
 
+AUTH_USER_MODEL = apps.get_model(settings.AUTH_USER_MODEL)
+
+
 class TodoListTestCase(TestCase):
     def setUp(self):
-        self.todo_list = TodoList.objects.create(name='Test list', user=User.objects.create())
+        self.todo_list = TodoList.objects.create(name='Test list', user=AUTH_USER_MODEL.objects.create())
 
     def test_datetime_logic(self):
         self.assertLessEqual(self.todo_list.created, self.todo_list.modified)
@@ -22,7 +27,7 @@ class TodoListItemTestCase(TestCase):
     def setUp(self):
         self.todo_list_item = TodoListItem.objects.create(
             title='Test item',
-            todo_list=TodoList.objects.create(name='Test list', user=User.objects.create()),
+            todo_list=TodoList.objects.create(name='Test list', user=AUTH_USER_MODEL.objects.create()),
             text='Lorem ipsum dolor ... sit amet'
         )
 
@@ -40,7 +45,7 @@ class ViewTestCase(TestCase):
 class ConcreteUserViewTestCase(ViewTestCase):
     def setUp(self):
         super().setUp()
-        self._user = User.objects.create(username='tester', email='tester@test.com', password='test_secret')
+        self._user = AUTH_USER_MODEL.objects.create()
 
 
 class IndexViewTestCase(ConcreteUserViewTestCase):
