@@ -23,5 +23,3 @@ urlpatterns = [
     url(r'^$', lambda request: redirect('/todo/', request=request)),
     url(r'^todo/', include(todo.urls, namespace='todo')),
 ]
-
-# urlpatterns += todo.urls.urlpatterns
