@@ -1,0 +1,25 @@
+{% extends 'todo/base.html' %}
+
+{% block content %}
+    <div>Welcome, {{ request.user.username }}</div>
+    <div>
+        <ul>
+        {% for todo_list in todo_lists %}
+            <li>
+                <a href="{% url 'todo:list-detail' todo_list.id %}">
+                    {% if todo_list.completed %}
+                        <s>{{ todo_list.name }}</s>
+                    {% else %}
+                        {{ todo_list.name }}
+                    {% endif %}
+                </a>
+                <a href="{% url 'todo:list-update' todo_list.id %}">update</a>
+                <a href="{% url 'todo:list-delete' todo_list.id %}">delete</a>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <a href="{% url 'todo:list-add' %}">create new</a>
+    </div>
+{% endblock %}

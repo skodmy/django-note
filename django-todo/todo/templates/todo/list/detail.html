@@ -1,0 +1,27 @@
+{% extends 'todo/base.html' %}
+
+{% block content %}
+    <div>List {{ todo_list.name }}</div><div><a href="{% url 'todo:index' %}">Back</a></div>
+    <div>
+        <ul>
+            {% for item in todo_list.items %}
+                <li>
+                    <a href="{% url 'todo:list-item-detail' todo_list.id item.id %}">
+                        {% if item.done %}
+                            <s>{{ item.title }}</s>
+                        {% else %}
+                            {{ item.title }}
+                        {% endif %}
+                    </a>
+                    <a href="{% url 'todo:list-item-update' todo_list.id item.pk %}">update</a>
+                    <a href="{% url 'todo:list-item-delete' todo_list.id item.pk %}">delete</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <a href="{% url 'todo:list-item-add' todo_list.pk %}">add item</a>
+        <a href="{% url 'todo:list-update' todo_list.pk %}">update</a>
+        <a href="{% url 'todo:list-delete' todo_list.pk %}">delete</a>
+    </div>
+{% endblock %}
