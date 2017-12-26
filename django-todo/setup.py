@@ -12,6 +12,9 @@ setup(
     version='1.0.0',
     packages=find_packages(),
     include_package_data=True,
+    install_requires=[
+        'Django==1.11.6',
+    ],
     license='GPL-3.0',
     description='A simple Django app to conduct Web-based todo lists.',
     long_description=README,
@@ -23,7 +26,7 @@ setup(
         'Framework :: Django',
         'Framework :: Django :: 1.11',
         'Intended Audience :: Developers',
-        'License :: OSI Approved :: GPL-3.0',
+        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 3.6',
         'Topic :: Internet :: WWW/HTTP',
